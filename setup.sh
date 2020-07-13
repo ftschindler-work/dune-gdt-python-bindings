@@ -28,13 +28,12 @@ unset BASEDIR
 # load the variables of this environment, sources the virtualenv
 source envs/${DXT_ENVIRONMENT}/PATH.sh
 
-# patch dune-grid-glue
+# patch
 cd "${BASEDIR}"/dune
-./patch-dune-grid-glue.sh
+./patch-dune-alugrid.sh
 
 # install python dependencies into the virtualenv
 cd "${BASEDIR}"
-pip install --upgrade pip==19 # see https://github.com/pymor/pymor/issues/870
 pip install $(grep Cython requirements.txt)
 pip install -r requirements.txt
 
@@ -49,7 +48,6 @@ if [ -e simdb ] ; then
 else
   pip install simdb
 fi
-
 
 # build dune
 cd "${BASEDIR}"/dune
