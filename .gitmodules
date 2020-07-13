@@ -1,0 +1,36 @@
+[submodule "pymor"]
+	path = pymor
+	url = https://github.com/ftschindler-work/pymor.git
+[submodule "simdb"]
+	path = simdb
+	url = https://github.com/ftschindler-work/simdb.git
+[submodule "dune/dune-gdt"]
+	path = dune/dune-gdt
+	url = https://github.com/dune-community/dune-gdt.git
+[submodule "dune/dune-geometry"]
+	path = dune/dune-geometry
+	url = https://github.com/dune-community/dune-geometry.git
+[submodule "dune/dune-grid"]
+	path = dune/dune-grid
+	url = https://github.com/dune-mirrors/dune-grid.git
+[submodule "dune/dune-grid-glue"]
+	path = dune/dune-grid-glue
+	url = https://github.com/dune-mirrors/dune-grid-glue.git
+[submodule "dune/dune-istl"]
+	path = dune/dune-istl
+	url = https://github.com/dune-mirrors/dune-istl.git
+[submodule "dune/dune-localfunctions"]
+	path = dune/dune-localfunctions
+	url = https://github.com/dune-mirrors/dune-localfunctions.git
+[submodule "dune/dune-xt-data"]
+	path = dune/dune-xt-data
+	url = https://github.com/dune-community/dune-xt-data.git
+[submodule "dune/dune-common"]
+	path = dune/dune-common
+	url = https://github.com/dune-community/dune-common.git
+[submodule "dune/config.opts"]
+	path = dune/config.opts
+	url = https://github.com/dune-community/config.opts.git
+[submodule "dune/dune-xt"]
+	path = dune/dune-xt
+	url = git@zivgitlab.uni-muenster.de:ag-ohlberger/dune-community/dune-xt.git
