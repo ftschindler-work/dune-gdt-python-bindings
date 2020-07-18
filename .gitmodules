@@ -3,7 +3,7 @@
 	url = https://github.com/ftschindler-work/pymor.git
 [submodule "dune/dune-gdt"]
 	path = dune/dune-gdt
-	url = https://github.com/ftschindler-work/dune-gdt.git
+	url = https://github.com/dune-community/dune-gdt.git
 [submodule "dune/dune-geometry"]
 	path = dune/dune-geometry
 	url = https://github.com/dune-mirrors/dune-geometry.git
