@@ -10,18 +10,22 @@ fi
 # define environment in case we are not in one of our dockers
 # determines which one to use below envs/
 if [ "X${DXT_ENVIRONMENT}" == "X" ]; then
+    echo No environment specified, defaulting to debian-full!
     export DXT_ENVIRONMENT=debian-full
 fi
 
 # initialize the virtualenv, if not yet present
 export BASEDIR="${PWD}"
-mkdir -p envs/${DXT_ENVIRONMENT}/venv && \
-  [ -e envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS} ] || \
-  cd envs/${DXT_ENVIRONMENT}/venv && \
-  virtualenv --python=python3 dune-${OPTS} && \
-  source dune-${OPTS}/bin/activate && \
-  echo "$BASEDIR/scripts" > "$(python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')/scripts.pth" && \
+mkdir -p envs/${DXT_ENVIRONMENT}/venv
+if [ -e envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS} ]; then
+  echo not creating virtualenv in envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS}, already exists
+else
+  cd envs/${DXT_ENVIRONMENT}/venv
+  virtualenv --python=python3 dune-${OPTS}
+  source dune-${OPTS}/bin/activate
+  echo "$BASEDIR/scripts" > "$(python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())')/scripts.pth"
   deactivate
+fi
 cd "${BASEDIR}"
 unset BASEDIR
 

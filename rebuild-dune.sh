@@ -10,14 +10,14 @@ fi
 # define environment in case we are not in one of our dockers
 # determines which one to use below envs/
 if [ "X${DXT_ENVIRONMENT}" == "X" ]; then
+    echo No environment specified, defaulting to debian-full!
     export DXT_ENVIRONMENT=debian-full
 fi
 
 # check existence of the virtualenv
-if [ "X$e/${DXT_ENVIRONMENT}/venv/dune-${OPTS}" == "X" ]; then
-    echo Missing virtualenv, did you call setup.sh?
+[ -e envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS} ] || \
+    echo Missing virtualenv, did you call setup.sh? ; \
     exit
-fi
 
 # load the variables of this environment, sources the virtualenv
 source envs/${DXT_ENVIRONMENT}/PATH.sh
@@ -33,5 +33,5 @@ nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$I
 echo
 echo "All done! From now on run"
 echo "  export OPTS=$OPTS"
-echo "  source e/${DXT_ENVIRONMENT}/PATH.sh"
+echo "  source envs/${DXT_ENVIRONMENT}/PATH.sh"
 echo "to activate the virtualenv!"
