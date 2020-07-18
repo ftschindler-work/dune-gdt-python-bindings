@@ -203,7 +203,6 @@ Given local functionals, the purpose of the `VectorFunctional` in `dune-gdt` is 
 In our example, we define $l_{\text{src}, h}$ as:
 
 ```python
-from dune.xt.la import Istl # determines the linear algebra backend of the functional: use dune-istl
 from dune.xt.functions import GridFunction as GF
 
 from dune.gdt import (
@@ -212,7 +211,7 @@ from dune.gdt import (
     LocalElementIntegralFunctional,
 )
 
-l_src_h = VectorFunctional(grid, source_space=V_h, la_backend=Istl())
+l_src_h = VectorFunctional(grid, source_space=V_h)
 l_src_h += LocalElementIntegralFunctional(LocalElementProductIntegrand(GF(grid, 1)).with_ansatz(GF(grid, f)))
 ```
 
@@ -287,7 +286,7 @@ from dune.gdt import (
 )
 
 a_diff_h = MatrixOperator(grid, source_space=V_h, range_space=V_h,
-                          la_backend=Istl(), sparsity_pattern=make_element_sparsity_pattern(V_h))
+                          sparsity_pattern=make_element_sparsity_pattern(V_h))
 a_diff_h += LocalElementIntegralBilinearForm(LocalLaplaceIntegrand(
     GF(grid, kappa, dim_range=(Dim(d), Dim(d)))))
 ```
@@ -363,11 +362,13 @@ Since the bilinear form is implemented as a `MatrixOperator`, we may simply inve
 u_h_vector = a_diff_h.apply_inverse(l_src_h.vector)
 ```
 
-## 1.8: postprocessing of the solution
+## 1.8: postprocessing the solution
 
 To make use of the DoF vector of the approximate solution, $\underline{u_h} \in \mathbb{R}^N$, it is convenient to interpert it as a discrete function again, $u_h \in V_h$ by means of the Galerkin isomorphism. This can be achieved by the `DiscreteFunction` in `dune-gdt`.
 
 All discrete functions are in particular grid functions and can thus be compared to analytical solutions, used as input in discretization schemes or visualized.
+
+**Note:** if visualization fails for some reason, call `paraview` on the command line and open `u_h.vtu`!
 
 ```python
 from dune.gdt import DiscreteFunction
