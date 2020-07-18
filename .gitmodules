@@ -24,7 +24,7 @@
 	url = https://github.com/dune-community/config.opts.git
 [submodule "dune/dune-xt"]
 	path = dune/dune-xt
-	url = https://github.com/dune-community/dune-xt.git
+	url = git@zivgitlab.uni-muenster.de:ag-ohlberger/dune-community/dune-xt.git
 [submodule "dune/dune-testtools"]
 	path = dune/dune-testtools
 	url = https://github.com/dune-community/dune-testtools.git
