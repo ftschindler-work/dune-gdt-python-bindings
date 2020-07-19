@@ -21,7 +21,7 @@ cd $BASEDIR
 cd pymor && pip install -e .
 
 # build dune
-cd $BASEDIR
+cd $BASEDIR/dune
 NPROC=$(($(nproc) - 1))
 ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build configure
 ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make -j$NPROC all"
