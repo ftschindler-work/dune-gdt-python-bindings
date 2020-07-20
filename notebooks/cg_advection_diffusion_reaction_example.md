@@ -28,13 +28,13 @@ in a weak sense, where $\kappa \in [L^\infty(\Omega)]^{d \times d}$ denotes a gi
 The variational problem associated with $\eqref{eq:diff:pde}$ reads: find $u \in H^1_0(\Omega)$, such that
 
 $$\begin{align}
-a_\text{diff}(u, v) &= l_\text{src}(v) &&\text{for all }v \in V,\tag{2}\label{eq:diff:variational_problem}
+a(u, v) &= l(v) &&\text{for all }v \in V,\tag{2}\label{eq:diff:variational_problem}
 \end{align}$$
 
-where the bilinear form $a_\text{diff}: H^1(\Omega) \times H^1(\Omega) \to \mathbb{R}$ and the linear functional $l_\text{src} \in H^{-1}(\Omega)$ are given by
+where the bilinear form $a: H^1(\Omega) \times H^1(\Omega) \to \mathbb{R}$ and the linear functional $l \in H^{-1}(\Omega)$ are given by
 
 $$\begin{align}
-a_\text{diff}(u, v) := \int_\Omega (\kappa\nabla u)\cdot v \,\text{d}x &&\text{and}&& l_\text{src}(v) := \int_\Omega f\,\,\text{d}x,\tag{3}\label{eq:diff:a_and_l}
+a_(u, v) := \int_\Omega (\kappa\nabla u)\cdot v \,\text{d}x &&\text{and}&& l(v) := \int_\Omega f\,\,\text{d}x,\tag{3}\label{eq:diff:a_and_l}
 \end{align}$$
 
 respectively.
@@ -70,7 +70,7 @@ V_h := \big\{ v \in C^0(\Omega) \;\big|\; v|_K \in \mathbb{P}^k(K) \big\}\tag{4}
 where $\mathbb{P}^k(K)$ denotes the space of polynomials of (total) degree up to $k$ (*note that $V_h \subset H^1(\Omega)$ and $V_h$ does not include the Dirichlet boundary condition, thus $V_h \not\subset H^1_0(\Omega$.*). We obtain a finite-dimensional variational problem by Galerkin-projection of $(2)$ onto $V_h$, thas is: we seek the approximate solution $u_h \in V_h \cap H^1_0(\Omega)$, such that
 
 $$\begin{align}
-a_\text{diff}(u_h, v_h) &= l_\text{src}(v_h) &&\text{for all }v_h \in V_h \cap H^1_0(\Omega).\tag{5}\label{eq:diff:discrete_variational_problem}
+a(u_h, v_h) &= l(v_h) &&\text{for all }v_h \in V_h \cap H^1_0(\Omega).\tag{5}\label{eq:diff:discrete_variational_problem}
 \end{align}$$
 
 A basis of $V_h$ is given by the Lagrangian shape-functions
@@ -102,25 +102,25 @@ and
   \end{align}$$
 owing to the chain rule.
 
-To obtain the algebraic analogue to $\eqref{eq:diff:discrete_variational_problem}$, we first substitute the bilinear form and functional by discrete coutnerparts acting on $V_h$, namely $a_{\text{diff}, h}: V_h \times V_h \to \mathbb{R}$ and $l_{\text{src}, h} \in V_h'$ (the construction of which is detailed further below in **1.3** and **1.4**) and
+To obtain the algebraic analogue to $\eqref{eq:diff:discrete_variational_problem}$, we first substitute the bilinear form and functional by discrete coutnerparts acting on $V_h$, namely $a_h: V_h \times V_h \to \mathbb{R}$ and $l_h \in V_h'$ (the construction of which is detailed further below in **1.3** and **1.4**) and
 
-* assemble the respective basis representations of $a_{\text{diff}, h}$ and $l_{\text{src}, h}$ w.r.t. the basis of $V_h$ into a matrix $\underline{a_{\text{diff}, h}} \in \mathbb{R}^{N \times N}$ and vector $\underline{l_{\text{src}, h}} \in \mathbb{R}^N$, given by
+* assemble the respective basis representations of $a_h$ and $l_h$ w.r.t. the basis of $V_h$ into a matrix $\underline{a_h} \in \mathbb{R}^{N \times N}$ and vector $\underline{l_h} \in \mathbb{R}^N$, given by
 
   $$\begin{align}
-  (\underline{a_{\text{diff}, h}})_{i, j} := a_{\text{diff}, h}(\varphi_j, \varphi_i) &&\text{and}&& (\underline{l_{\text{src}, h}})_i := l_\text{src}(\varphi_i),\tag{8}
+  (\underline{a_h})_{i, j} := a_h(\varphi_j, \varphi_i) &&\text{and}&& (\underline{l_h})_i := l_h(\varphi_i),\tag{8}
   \end{align}$$
   respectively, for $1 \leq i, j \leq N$;
-* and obtain the restrictions of $\underline{a_{\text{diff}, h}}$ and $\underline{l_{\text{src}, h}}$ to $V_h \cap H^1_0(\Omega)$ by modifying all entries associated with basis functions defined on the Dirichlet boundary.
+* and obtain the restrictions of $\underline{a_h}$ and $\underline{l_h}$ to $V_h \cap H^1_0(\Omega)$ by modifying all entries associated with basis functions defined on the Dirichlet boundary.
   For each index $i \in \{1, \dots N\}$, where the Lagrange-point defining the basis function $\varphi_i$ lies on the Dirichlet boundary $\partial\Omega$, we set
   $$\begin{align}
-  (\underline{a_{\text{diff}, h}})_{i, j} := \begin{cases}1,&j =i\\0,&\text{else}\end{cases} &&\text{ for all } 1 \leq j \leq N\text{ and}&&(\underline{l_{\text{src}, h}})_i := 0,
+  (\underline{a_h})_{i, j} := \begin{cases}1,&j =i\\0,&\text{else}\end{cases} &&\text{ for all } 1 \leq j \leq N\text{ and}&&(\underline{l_h})_i := 0,
   \end{align}$$
-  which corresponds to setting the $i$th row of $\underline{a_{\text{diff}, h}}$ to a unit row and clearing the $i$th entry of $\underline{l_{\text{src}, h}}$.
+  which corresponds to setting the $i$th row of $\underline{a_h}$ to a unit row and clearing the $i$th entry of $\underline{l_h}$.
 
 The algebraic version of $\eqref{eq:diff:discrete_variational_problem}$ then reads: find the vector of degrees of freedom (DoF) $\underline{u_h} \in \mathbb{R}^N$, such that
 
 $$\begin{align}
-\underline{a_{\text{diff}, h}}\;\underline{u_h} = \underline{l_{\text{src}, h}}.\tag{9}
+\underline{a_h}\;\underline{u_h} = \underline{l_h}.\tag{9}
 \end{align}$$
 
 
@@ -138,11 +138,13 @@ boundary_info = AllDirichletBoundaryInfo(grid)
 ```
 
 ```python
-# from dune.xt.common.vtk.plot import plot as k3d_plot
+from dune.xt.common.vtk.plot import plot as k3d_plot
 
-# grid.visualize('grid') # writes grid__level_0.vtu (before refinement) and grid__level_1.vtu (after refinement)
+# writes grid.vtu with a function 'Element index'
+grid.visualize('grid')
 
-# k3d_plot('grid__level_0.vtu', color_attribute_name='entity_id__level_0')
+# displays the 'Element index' function from the 'grid.vtu' file
+_ = k3d_plot('grid.vtu', color_attribute_name='Element index')
 ```
 
 ```python
@@ -160,13 +162,13 @@ assert V_h.num_DoFs == grid.size(d)
 Since the application of the functional to a *global* basis function $\psi_i$ is localizable w.r.t. the grid, e.g.
 
 $$\begin{align}
-l_\text{src}(\psi_i) = \sum_{K \in \mathcal{T}_h} \underbrace{\int_K f \psi_i\,\text{d}x}_{=: l_\text{src}^K(\psi_i)},\tag{10}\label{eq:diff:localized_rhs}
+l(\psi_i) = \sum_{K \in \mathcal{T}_h} \underbrace{\int_K f \psi_i\,\text{d}x}_{=: l^K(\psi_i)},\tag{10}\label{eq:diff:localized_rhs}
 \end{align}$$
 
-we first consider local functionals (such as $l_\text{src}^K \in L^2(K)'$), where *local* means: *with respect to a grid element $K$*. Using the reference map $F_K$ and $(6)$ from above, we transform the evaluation of $l_\text{src}^K(\psi_i)$ to the reference element,
+we first consider local functionals (such as $l^K \in L^2(K)'$), where *local* means: *with respect to a grid element $K$*. Using the reference map $F_K$ and $(6)$ from above, we transform the evaluation of $l^K(\psi_i)$ to the reference element,
 
 $$\begin{align}
-l_\text{src}^K(\psi_i) &= \int_K f\psi_i\,\text{d}x = \int_{\hat{K}} |\text{det}\nabla F_K| \underbrace{(f\circ F_K)}_{=: f^K} (\hat{\psi}_\hat{i}\circ F_K^{-1}\circ F_K) \text{d}\hat{x}\\
+l^K(\psi_i) &= \int_K f\psi_i\,\text{d}x = \int_{\hat{K}} |\text{det}\nabla F_K| \underbrace{(f\circ F_K)}_{=: f^K} (\hat{\psi}_\hat{i}\circ F_K^{-1}\circ F_K) \text{d}\hat{x}\\
 &=\int_{\hat{K}} |\text{det}\nabla F_K| f^K \hat{\psi}_\hat{i} \,\text{d}\hat{x},\tag{11}\label{eq:diff:transformed_localized_rhs}
 \end{align}$$
 
@@ -186,18 +188,18 @@ This leads us to the definition of a local functional in `dune-gdt`: ignoring th
 * an approximation of the integral in $\eqref{eq:diff:transformed_localized_rhs}$ by a numerical **quadrature**:
   given any unary element integrand $\Xi^{1, K}$, and $Q \in \mathbb{N}$ quadrature points $\hat{x}_1, \dots, \hat{x}_Q$ and weights $\omega_1, \dots, \omega_Q \in \mathbb{R}$, we approximate
   $$\begin{align}
-  l_{\text{src, h}}^K(\psi_i) := \sum_{q = 1}^Q |\text{det}\nabla F_K(\hat{x}_q)|\,\omega_q\,\Xi^{1,K}(\hat{\psi}_\hat{i}, \hat{x}_q) \approx \int_\hat{K} \Xi^{1,K}(\hat{\psi}_\hat{i}, \hat{x})\,\text{d}\hat{x} = l_\text{src}(\psi_i),
+  l_h^K(\psi_i) := \sum_{q = 1}^Q |\text{det}\nabla F_K(\hat{x}_q)|\,\omega_q\,\Xi^{1,K}(\hat{\psi}_\hat{i}, \hat{x}_q) \approx \int_\hat{K} \Xi^{1,K}(\hat{\psi}_\hat{i}, \hat{x})\,\text{d}\hat{x} = l^K(\psi_i),
   \end{align}$$
   which is modelled by `LocalElementIntegralFunctional` in `dune-gdt` (see below).
   
   Note that the order of the quadrature is determined automatically, since the integrand computes its polynomial degree given all data functions and basis functions (in the above example, the polynomial order of $f^K$ is 3 by our construction and the polynomial order of $\hat{\psi}$ is 1, since we are using piecewise linear shape functions, yielding a polynomial order of 4 for $\Xi_\text{prod}^{1,K}$).
 
-Given local functionals, the purpose of the `VectorFunctional` in `dune-gdt` is to assemble $\underline{l_{\text{src}, h}}$ from $(6)$ by
+Given local functionals, the purpose of the `VectorFunctional` in `dune-gdt` is to assemble $\underline{l_h}$ from $(6)$ by
 * creating an appropriate vector of length $N$
 * iterating over all grid elements $K \in \mathcal{T}_h$
 * localizing the basis of $V_h$ w.r.t. each grid element $K$
-* evaluating the local functionals $l_{\text{src}, h}^K$ for each localized basis function
-* adding the results to the respective entry of $\underline{l_{\text{src}, h}}$, determined by the DoF-mapping of the discrete function space `ContinuousLagrangeSpace`
+* evaluating the local functionals $l_h^K$ for each localized basis function
+* adding the results to the respective entry of $\underline{l_h}$, determined by the DoF-mapping of the discrete function space `ContinuousLagrangeSpace`
 
 
 In our example, we define $l_{\text{src}, h}$ as:
@@ -211,8 +213,8 @@ from dune.gdt import (
     LocalElementIntegralFunctional,
 )
 
-l_src_h = VectorFunctional(grid, source_space=V_h)
-l_src_h += LocalElementIntegralFunctional(LocalElementProductIntegrand(GF(grid, 1)).with_ansatz(GF(grid, f)))
+l_h = VectorFunctional(grid, source_space=V_h)
+l_h += LocalElementIntegralFunctional(LocalElementProductIntegrand(GF(grid, 1)).with_ansatz(GF(grid, f)))
 ```
 
 A few notes regarding the above code:
@@ -231,26 +233,26 @@ A few notes regarding the above code:
   \end{align}$$
   which is exactly what we need to approximate  $l_\text{src}^K(\psi_i) = \int_K f\,\psi_i\text{d}x$.
 
-* the above code creates the vector $\underline{l_{\text{src}, h}}$ (available as the `vector` attribute of `l_src_h`), but does not yet assemble the functional into it, which we can check by:
+* the above code creates the vector $\underline{l_h}$ (available as the `vector` attribute of `l_h`) filled with `0`, but does not yet assemble the functional into it, which we can check by:
 
 ```python
-assert len(l_src_h.vector) == V_h.num_DoFs
+assert len(l_h.vector) == V_h.num_DoFs
 
-print(l_src_h.vector.sup_norm())
+print(l_h.vector.sup_norm())
 ```
 
 ## 1.4: approximate bilinear forms
 
-The approximation of the application of the bilinear form $a_\text{diff}$ to two *global* basis function $\psi_i, \varphi_j$ follows in a similar manner. We obtain by localization
+The approximation of the application of the bilinear form $a$ to two *global* basis function $\psi_i, \varphi_j$ follows in a similar manner. We obtain by localization
 
 $$\begin{align}
-a_\text{diff}(\psi_i, \varphi_j) &= \int_\Omega (\kappa\nabla \varphi_j)\cdot \nabla\psi_i\,\text{d}x = \sum_{K \in \mathcal{T}_h}\underbrace{\int_K (\kappa\nabla \varphi_j)\cdot \nabla\psi_i\,\text{d}x}_{=:a_\text{diff}^K(\psi_i, \varphi_j)}
+a(\psi_i, \varphi_j) &= \int_\Omega (\kappa\nabla \varphi_j)\cdot \nabla\psi_i\,\text{d}x = \sum_{K \in \mathcal{T}_h}\underbrace{\int_K (\kappa\nabla \varphi_j)\cdot \nabla\psi_i\,\text{d}x}_{=:a^K(\psi_i, \varphi_j)}
 \end{align}$$
 
 and by transformation and the chain rule, using $(6)$, $(7)$ and $F_K^{-1}\circ F_K = \text{id}$
 
 $$\begin{align}
-a_\text{diff}^K(\psi_i, \varphi_j) &= \int_{\hat{K}} |\text{det}\nabla F_K| \big(\underbrace{(\kappa\circ F_K)}_{=: \kappa^K}\underbrace{(\nabla F_K^{-1}\cdot\nabla\hat{\varphi}_\hat{j})}_{=: \nabla_K\hat{\varphi}_\hat{j}}\big)\cdot\underbrace{(\nabla F_K^{-1}\cdot\nabla\hat{\psi}_\hat{i})}_{=: \nabla_K\hat{\psi}_\hat{i}}\,\text{d}\hat{x}\\
+a^K(\psi_i, \varphi_j) &= \int_{\hat{K}} |\text{det}\nabla F_K| \big(\underbrace{(\kappa\circ F_K)}_{=: \kappa^K}\underbrace{(\nabla F_K^{-1}\cdot\nabla\hat{\varphi}_\hat{j})}_{=: \nabla_K\hat{\varphi}_\hat{j}}\big)\cdot\underbrace{(\nabla F_K^{-1}\cdot\nabla\hat{\psi}_\hat{i})}_{=: \nabla_K\hat{\psi}_\hat{i}}\,\text{d}\hat{x}\\
 &= \int_{\hat{K}} |\text{det}\nabla F_K| \big(\kappa^K \nabla_K\hat{\varphi}_\hat{j}\big)\cdot\nabla_K\hat{\psi}_\hat{i}\,\text{d}\hat{x},
 \end{align}$$
 
@@ -266,16 +268,16 @@ Similar to local fucntionals, a **local bilinear form** is determined
   and  
 * an approximation of the integral by a numerical **quadrature**: given any binary element integrand $\Xi^{2, K}$, and $Q \in \mathbb{N}$ quadrature points $\hat{x}_1, \dots, \hat{x}_Q$ and weights $\omega_1, \dots, \omega_Q \in \mathbb{R}$, we approximate
   $$\begin{align}
-  a_{\text{diff, h}}^K(\psi_i, \varphi_j) := \sum_{q = 1}^Q |\text{det}\nabla F_K(\hat{x}_q)|\,\omega_q\,\Xi^{2,K}(\hat{\psi}_\hat{i}, \hat{\varphi}_\hat{j}, \hat{x}_q) \approx \int_\hat{K} \Xi^{2,K}(\hat{\psi}_\hat{i}, \hat{\varphi}_\hat{j}, \hat{x})\,\text{d}\hat{x} = a_\text{diff}(\psi_i, \varphi_i),
+  a_h^K(\psi_i, \varphi_j) := \sum_{q = 1}^Q |\text{det}\nabla F_K(\hat{x}_q)|\,\omega_q\,\Xi^{2,K}(\hat{\psi}_\hat{i}, \hat{\varphi}_\hat{j}, \hat{x}_q) \approx \int_\hat{K} \Xi^{2,K}(\hat{\psi}_\hat{i}, \hat{\varphi}_\hat{j}, \hat{x})\,\text{d}\hat{x} = a^K(\psi_i, \varphi_i),
 \end{align}$$
 which is modelled by `LocalElementIntegralBilinearForm` in `dune-gdt` (see below).
 
-Given local bilinear forms, the purpose of the `MatrixOperator` in `dune-gdt` is to assemble $\underline{a_{\text{diff}, h}}$ from $(6)$ by
+Given local bilinear forms, the purpose of the `MatrixOperator` in `dune-gdt` is to assemble $\underline{a_h}$ from $(6)$ by
 * creating an appropriate (sparse) matrix of size $N \times N$
 * iterating over all grid elements $K \in \mathcal{T}_h$
 * localizing the basis of $V_h$ w.r.t. each grid element $K$
-* evaluating the local bilinear form $a_{\text{diff}, h}^K$ for each combination localized ansatz and test basis functions
-* adding the results to the respective entry of $\underline{a_{\text{diff}, h}}$, determined by the DoF-mapping of the discrete function space `ContinuousLagrangeSpace`
+* evaluating the local bilinear form $a_h^K$ for each combination localized ansatz and test basis functions
+* adding the results to the respective entry of $\underline{a_h}$, determined by the DoF-mapping of the discrete function space `ContinuousLagrangeSpace`
 
 ```python
 from dune.gdt import (
@@ -285,22 +287,21 @@ from dune.gdt import (
     LocalElementIntegralBilinearForm,
 )
 
-a_diff_h = MatrixOperator(grid, source_space=V_h, range_space=V_h,
-                          sparsity_pattern=make_element_sparsity_pattern(V_h))
-a_diff_h += LocalElementIntegralBilinearForm(LocalLaplaceIntegrand(
-    GF(grid, kappa, dim_range=(Dim(d), Dim(d)))))
+a_h = MatrixOperator(grid, source_space=V_h, range_space=V_h,
+                     sparsity_pattern=make_element_sparsity_pattern(V_h))
+a_h += LocalElementIntegralBilinearForm(LocalLaplaceIntegrand(GF(grid, kappa, dim_range=(Dim(d), Dim(d)))))
 ```
 
 A few notes regarding the above code:
 
 * the `LocalLaplaceIntegrand` expects a matrix-valued function, which we achieve by converting the scalar function `kappa` to a matrix-valued `GridFunction`
 
-* the above code creates the matrix $\underline{a_{\text{diff}, h}}$ (available as the `matrix` attribute of `a_diff_h`), but does not yet assemble the bilinear form into it, which we can check by:
+* the above code creates the matrix $\underline{a_h}$ (available as the `matrix` attribute of `a_h`) with sparse `0` entries, but does not yet assemble the bilinear form into it, which we can check by:
 
 ```python
-assert a_diff_h.matrix.rows == a_diff_h.matrix.cols == V_h.num_DoFs
+assert a_h.matrix.rows == a_h.matrix.cols == V_h.num_DoFs
 
-print(a_diff_h.matrix.sup_norm())
+print(a_h.matrix.sup_norm())
 ```
 
 ## 1.5: handling the Dirichlet boundary condition
@@ -317,12 +318,12 @@ dirichlet_constraints = DirichletConstraints(boundary_info, V_h)
 Similar to the bilinear forms an functionals above, the `dirichlet_constraints` are not yet assembled, which we can check as follows:
 
 ```python
-dirichlet_constraints.dirichlet_DoFs
+print(dirichlet_constraints.dirichlet_DoFs)
 ```
 
 ## 1.6: walking the grid
 
-Until now, we constructed a bilinear form `a_diff_h`, a linear functional `l_src_h` and Dirichlet constrinaints `dirichlet_constraints`, which are all localizable w.r.t. the grid, that is: i order to compute their application or to assemble them, it is sufficient to apply them to each element of the grid.
+Until now, we constructed a bilinear form `a_h`, a linear functional `l_h` and Dirichlet constrinaints `dirichlet_constraints`, which are all localizable w.r.t. the grid, that is: i order to compute their application or to assemble them, it is sufficient to apply them to each element of the grid.
 
 Internally, this is realized by means of the `Walker` from `dune-xt-grid`, which allows to register all kinds of *grid functors* which are applied locally on each element. All bilinear forms, operators and functionals (as well as other constructs such as the Dirichlet constraints) in `dune-gdt` are implemented as such functors.
 
@@ -332,8 +333,8 @@ Thus, we may assemble everything in one grid walk:
 from dune.xt.grid import Walker
 
 walker = Walker(grid)
-walker.append(a_diff_h)
-walker.append(l_src_h)
+walker.append(a_h)
+walker.append(l_h)
 walker.append(dirichlet_constraints)
 walker.walk()
 ```
@@ -341,9 +342,9 @@ walker.walk()
 We can check that the assembled bilinear form and functional as well as the Dirichlet constraints actually contain some data:
 
 ```python
-print(f'a_diff_h = {a_diff_h.matrix.__repr__()}')
+print(f'a_h = {a_h.matrix.__repr__()}')
 print()
-print(f'l_src_h = {l_src_h.vector.__repr__()}')
+print(f'l_h = {l_h.vector.__repr__()}')
 print()
 print(f'Dirichlet DoFs: {dirichlet_constraints.dirichlet_DoFs}')
 ```
@@ -353,13 +354,13 @@ print(f'Dirichlet DoFs: {dirichlet_constraints.dirichlet_DoFs}')
 After walking the grid, the bilinra form and linear functional are assembled w.r.t. $V_h$ and we constrain them to include the handling of the Dirichlet boundary condition.
 
 ```python
-dirichlet_constraints.apply(a_diff_h.matrix, l_src_h.vector)
+dirichlet_constraints.apply(a_h.matrix, l_h.vector)
 ```
 
 Since the bilinear form is implemented as a `MatrixOperator`, we may simply invert the operator to obtain the DoF vector of the solution of $(9)$.
 
 ```python
-u_h_vector = a_diff_h.apply_inverse(l_src_h.vector)
+u_h_vector = a_h.apply_inverse(l_h.vector)
 ```
 
 ## 1.8: postprocessing the solution
