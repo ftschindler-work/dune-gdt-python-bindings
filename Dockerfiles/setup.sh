@@ -12,6 +12,10 @@ source /data/dune/PATH.sh
 
 export BASEDIR=/data/home/dune-gdt-python-bindings
 
+# patch
+cd "${BASEDIR}"/dune
+./patch-dune-alugrid.sh
+
 # install python dependencies into the virtualenv
 cd $BASEDIR
 pip install --upgrade pip
