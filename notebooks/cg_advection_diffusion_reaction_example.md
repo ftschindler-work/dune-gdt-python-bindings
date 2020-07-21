@@ -12,6 +12,12 @@ jupyter:
     name: python3
 ---
 
+```python
+# wurlitzer: display dune's output in the notebook
+%load_ext wurlitzer
+%matplotlib notebook
+```
+
 # 1: diffusion with homogeneous Dirichlet boundary condition
 
 ## 1.1: analytical problem
