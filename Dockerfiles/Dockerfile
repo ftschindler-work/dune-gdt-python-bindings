@@ -33,7 +33,7 @@ RUN ./setup.sh
 ADD strip.sh /data/dune/
 RUN ./strip.sh
 
-ADD home.tgz /data/home/
+ADD qtcreator-config.tgz /data/home/
 ADD bashrc /data/home/.bashrc
 ADD rebuild-dune.sh /data/dune/
 RUN chown -R ${USERNAME_}:${USERNAME_} /data

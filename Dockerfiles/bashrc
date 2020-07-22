@@ -28,3 +28,19 @@ export QT_QPA_PLATFORMTHEME="qt5ct"
 source /data/dune/venv/dune-gdt-python-bindings/bin/activate
 cd /data/home/dune-gdt-python-bindings
 
+echo "Welcome to the docker container accompanying"
+echo "  https://github.com/ftschindler-work/dune-gdt-python-bindings"
+echo "which can be obtained from:"
+echo "  https://hub.docker.com/r/ftschindlerwork/dune-gdt-python-bindings"
+echo ""
+echo "The virtualenv with all prebuilt binaries and Python bindings is already active."
+echo "You may start a Jupyter-Notebook server by calling"
+echo ""
+echo "  ./start_notebook_server.py"
+echo ""
+echo "and by opening the printed URL starting with 127.0.0.1 in your favorite browser. Alternatively, you can execute"
+echo ""
+echo "  qtcreator"
+echo ""
+echo "to start the preconfigured QtCreator IDE to start creating your own Python bindings."
+
