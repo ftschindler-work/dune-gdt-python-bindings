@@ -20,6 +20,9 @@ This tutorial shows how to solve the stationary heat equation with homogeneous D
 # wurlitzer: display dune's output in the notebook
 %load_ext wurlitzer
 %matplotlib notebook
+
+import numpy as np
+np.warnings.filterwarnings('ignore') # silence numpys warnings
 ```
 
 # 1: diffusion with homogeneous Dirichlet boundary condition
@@ -388,6 +391,6 @@ u_h = DiscreteFunction(V_h, u_h_vector, name='u_h')
 
 from dune.xt.common.vtk.plot import plot as k3d_plot
 
-u_h.visualize('u_h') # writes u_h.vtp in 1d and u_h.vtu for d > 1
+u_h.visualize('u_h') # writes u_h.vtu
 _ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
 ```

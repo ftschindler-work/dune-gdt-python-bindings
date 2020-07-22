@@ -16,25 +16,28 @@ jupyter:
 # wurlitzer: display dune's output in the notebook
 %load_ext wurlitzer
 %matplotlib notebook
+
+import numpy as np
+np.warnings.filterwarnings('ignore') # silence numpys warnings
 ```
 
 ```python
-import numpy as np
-
 from dune.xt.common.vtk.plot import plot as k3d_plot
 from dune.xt.grid import Dim, Simplex, make_cube_grid
 
 grid = make_cube_grid(Dim(2), Simplex(), [-1, -1], [1, 1], [1, 1])
 grid.visualize('grid_0')
+print('initial grid')
 _ = k3d_plot('grid_0.vtu', color_attribute_name='Element index')
 
 # we require one global refinement for simlexgrids to obtain a symmetric grid
 grid.global_refine(1)
 
-print(f'grid has {grid.size(0)} elements')
-
+print('once refined to obtain a symmetric grid')
 grid.visualize('grid_1')
 _ = k3d_plot('grid_1.vtu', color_attribute_name='Element index')
+
+print(f'grid has {grid.size(0)} elements')
 ```
 
 ```python
