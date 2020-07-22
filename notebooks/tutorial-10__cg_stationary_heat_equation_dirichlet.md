@@ -12,6 +12,10 @@ jupyter:
     name: python3
 ---
 
+# Tutorial 10: continuous FEM for the stationary heat equation
+
+This tutorial shows how to solve the stationary heat equation with homogeneous Dirichlet boundary conditions using continuous Finite Elmenets with `dune-gdt`.
+
 ```python
 # wurlitzer: display dune's output in the notebook
 %load_ext wurlitzer
