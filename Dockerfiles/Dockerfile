@@ -36,6 +36,8 @@ RUN ./setup.sh && \
 ADD qtcreator-config.tgz /data/home/
 ADD bashrc /data/home/.bashrc
 ADD rebuild-dune.sh /data/dune/
+ADD CMakeLists.txt.user.dune-xt /data/dune/
+ADD CMakeLists.txt.user.dune-gdt /data/dune/
 RUN chown -R ${USERNAME_}:${USERNAME_} /data
 
 ADD entrypoint.sh /usr/local/bin/

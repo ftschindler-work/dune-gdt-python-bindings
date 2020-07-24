@@ -33,6 +33,16 @@ if [ -e ${CID_FILE} ]; then
 
 else
 
+  if [[ "$(id -u)" != "1000" || "$(id -g)" != "1000" ]]; then
+    echo "WARNING: This docker image assumes the ${PROJECT} directory to be writable by the user/group with id 1000/1000!"
+    echo "If you run into problems, you need to"
+    echo "  sudo chown -R 1000:1000 ${PROJECT}"
+    echo "before starting the container and"
+    echo "  sudo chown -R $(id -u):$(id -g) ${PROJECT}"
+    echo "after the container is stopped."
+    echo ""
+  fi
+
   echo "Starting a docker container"
   echo "  for ${PROJECT}"
   echo "  based on ${CONTAINER}"
