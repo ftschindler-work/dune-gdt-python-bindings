@@ -48,5 +48,6 @@ echo "and by opening the printed URL starting with 127.0.0.1 in your favorite br
 echo ""
 echo "  qtcreator"
 echo ""
-echo "to start the preconfigured QtCreator IDE to start creating your own Python bindings."
+echo "to start the preconfigured QtCreator IDE to start creating your own Python bindings"
+echo "(in case you receive an X error: execute \"xhost +local:docker\" once before starting the container)."
 
