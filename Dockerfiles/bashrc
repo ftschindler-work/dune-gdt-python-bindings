@@ -31,8 +31,8 @@ cd /data/home/dune-gdt-python-bindings
 # we need to account for the fact that a user might be starting this for the first time
 # with fresh sources and no CMakeLists.txt.user present (which will break the qtcreator
 # config)
-[ -e dune-xt/CMakeLists.txt.user ] || cp /data/dune/CMakeLists.txt.user.dune-xt dune-xt/CMakeLists.txt.user
-[ -e dune-gdt/CMakeLists.txt.user ] || cp /data/dune/CMakeLists.txt.user.dune-gdt dune-gdt/CMakeLists.txt.user
+[ -e dune-xt/CMakeLists.txt.user ] || cp /data/dune/CMakeLists.txt.user.dune-xt dune/dune-xt/CMakeLists.txt.user
+[ -e dune-gdt/CMakeLists.txt.user ] || cp /data/dune/CMakeLists.txt.user.dune-gdt dune/dune-gdt/CMakeLists.txt.user
 
 echo "Welcome to the docker container accompanying"
 echo "  https://github.com/ftschindler-work/dune-gdt-python-bindings"
