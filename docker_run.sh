@@ -45,7 +45,6 @@ else
     -e QT_SCALE_FACTOR=${QT_SCALE_FACTOR:-1} \
     -e GDK_DPI_SCALE=${GDK_DPI_SCALE:-1} \
     -e EXPOSED_PORT=$PORT -p 127.0.0.1:$PORT:$PORT \
-    -v /tmp/felix_tmp/home:/data/home \
     -v /etc/localtime:/etc/localtime:ro \
     -v ${BASEDIR}/${PROJECT}:/data/home/${PROJECT} \
     ${CONTAINER} /bin/bash
