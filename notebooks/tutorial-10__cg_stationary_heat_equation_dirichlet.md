@@ -12,9 +12,15 @@ jupyter:
     name: python3
 ---
 
-# Tutorial 10: continuous FEM for the stationary heat equation
+# Tutorial 10 [WIP]: continuous FEM for the stationary heat equation
 
 This tutorial shows how to solve the stationary heat equation with homogeneous Dirichlet boundary conditions using continuous Finite Elmenets with `dune-gdt`.
+
+## This is work in progress (WIP), still missing:
+
+* non-homonegenous Dirichlet boundary values
+* Neumann boundary values
+* Robin boundary values
 
 ```python
 # wurlitzer: display dune's output in the notebook
@@ -389,7 +395,25 @@ from dune.gdt import DiscreteFunction
 
 u_h = DiscreteFunction(V_h, u_h_vector, name='u_h')
 
-from dune.xt.common.vtk.plot import plot as k3d_plot
+u_h.visualize('u_h') # writes u_h.vtu
+_ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
+```
+
+# 1.9: everything in a single function
+
+For a better overview, the above discretization code is also available in a single function in the file `discretize_elliptic_cg.py`:
+
+```python
+import inspect
+from discretize_elliptic_cg import discretize_elliptic_cg_dirichlet_zero
+
+print(inspect.getsource(discretize_elliptic_cg_dirichlet_zero))
+```
+
+Calling it gives the same solution as above:
+
+```python
+u_h = discretize_elliptic_cg_dirichlet_zero(grid, kappa, f)
 
 u_h.visualize('u_h') # writes u_h.vtu
 _ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
