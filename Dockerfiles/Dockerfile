@@ -9,11 +9,12 @@ FROM dunecommunity/debian-qtcreator
 
 MAINTAINER Felix Schindler <felix.schindler@wwu.de>
 
-RUN mkdir -p /data/home
 ENV USERNAME_ user
 ENV UID_ 1000
 ENV GID_ 1000
-RUN groupadd -g $GID_ $USERNAME_ && \
+RUN mkdir -p /data/home && \
+    mkdir -p /data/dune && \
+    groupadd -g $GID_ $USERNAME_ && \
     useradd -d /data/home -g $GID_ -s /bin/bash -u $UID_ $USERNAME_ && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt-get" >> /etc/sudoers && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt" >> /etc/sudoers && \
@@ -25,13 +26,12 @@ RUN git clone https://github.com/ftschindler-work/dune-gdt-python-bindings && \
     cd dune-gdt-python-bindings&& \
     git submodule update --init --recursive
 
-RUN mkdir -p /data/dune
 ADD setup.sh /data/dune/
 ADD PATH.sh /data/dune/
-WORKDIR /data/dune
-RUN ./setup.sh
 ADD strip.sh /data/dune/
-RUN ./strip.sh
+WORKDIR /data/dune
+RUN ./setup.sh && \
+    ./strip.sh
 
 ADD qtcreator-config.tgz /data/home/
 ADD bashrc /data/home/.bashrc
