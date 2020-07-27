@@ -32,10 +32,6 @@ unset BASEDIR
 # load the variables of this environment, sources the virtualenv
 source envs/${DXT_ENVIRONMENT}/PATH.sh
 
-# patch
-cd "${BASEDIR}"/dune
-./patch-dune-alugrid.sh
-
 # install python dependencies into the virtualenv
 cd "${BASEDIR}"
 pip install $(grep Cython requirements.txt)
