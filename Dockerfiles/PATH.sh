@@ -1,4 +1,4 @@
-export OPTS=gcc-relwithdebinfo
+export OPTS=clang-relwithdebinfo.ninja
 export INSTALL_PREFIX=/data/dune
 export PATH=${INSTALL_PREFIX}/bin:$PATH
 export LD_LIBRARY_PATH=${INSTALL_PREFIX}/lib64:${INSTALL_PREFIX}/lib:$LD_LIBRARY_PATH

@@ -12,10 +12,6 @@ source /data/dune/PATH.sh
 
 export BASEDIR=/data/home/dune-gdt-python-bindings
 
-# patch
-cd "${BASEDIR}"/dune
-./patch-dune-alugrid.sh
-
 # install python dependencies into the virtualenv
 cd $BASEDIR
 pip install --upgrade pip
@@ -25,10 +21,16 @@ cd $BASEDIR
 cd pymor && pip install -e .
 
 # build dune
-cd $BASEDIR/dune
+if [ "${OPTS: -6}" == ".ninja" ]; then
+  MAKE=ninja
+else
+  MAKE=make
+fi
+
+cd "${BASEDIR}"/dune
 NPROC=$(($(nproc) - 1))
 ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build configure
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make -j$NPROC all"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make -j$NPROC bindings_no_ext || echo no bindings"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make install_python"
+./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE -j$NPROC all"
+./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE -j$NPROC bindings_no_ext || echo no bindings"
+./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE install_python"
 

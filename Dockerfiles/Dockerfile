@@ -5,7 +5,7 @@
 # Authors:
 #   Felix Schindler (2020)
 
-FROM dunecommunity/debian-qtcreator
+FROM dunecommunity/arch-minimal-interactive
 
 MAINTAINER Felix Schindler <felix.schindler@wwu.de>
 
