@@ -96,7 +96,6 @@ Pygments==2.6.1
 pygmsh==6.0.2
 pylicense3==0.4.1
 pymor-nb2plots==0.7
-PyMUMPS==0.3.2
 PyOpenGL==3.1.5
 pyparsing==2.4.7
 pypi-oldest-requirements==2020.4.1
