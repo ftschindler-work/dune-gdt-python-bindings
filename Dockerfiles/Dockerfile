@@ -16,9 +16,7 @@ RUN mkdir -p /data/home && \
     mkdir -p /data/dune && \
     groupadd -g $GID_ $USERNAME_ && \
     useradd -d /data/home -g $GID_ -s /bin/bash -u $UID_ $USERNAME_ && \
-    echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt-get" >> /etc/sudoers && \
-    echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt" >> /etc/sudoers && \
-    echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/dpkg" >> /etc/sudoers
+    echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/pacman" >> /etc/sudoers
 RUN pacman -Syuu --noconfirm && \
     pacman -S --noconfirm lapacke && \
     pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present"
