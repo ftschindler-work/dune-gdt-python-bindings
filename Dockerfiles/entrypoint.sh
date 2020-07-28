@@ -12,6 +12,8 @@ echo "127.0.0.1 ${HOSTNAME}" >> /etc/hosts
 
 if [ "X$@" == "X" ]; then
   exec gosu $USERNAME_ /bin/bash
+elif [ "X$@" == "notebooks" ]; then
+  exec gosu $USERNAME_ /bin/bash -c "./start_notebook_server"
 else
   exec gosu $USERNAME_ "$@"
 fi

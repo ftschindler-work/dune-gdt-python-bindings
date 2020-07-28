@@ -7,13 +7,6 @@
 # Authors:
 #   Felix Schindler (2020)
 
-# execute /bin/bash if no arguments are given
-if [ "X$@" == "X" ]; then
-  EXEC=/bin/bash
-else
-  EXEC="$@"
-fi
-
 # mount the dir containing this script
 PROJECTDIR="$(cd "$(dirname ${BASH_SOURCE[0]})" ;  pwd -P )"
 
@@ -34,16 +27,18 @@ if [ -e ${CID_FILE} ]; then
 
 else
 
+  [ -e "${PROJECTDIR}/notebooks" ] || mkdir -p "${PROJECTDIR}/notebooks"
+
   if [[ "$(id -u)" != "1000" || "$(id -g)" != "1000" ]]; then
     echo "WARNING: This docker image assumes the source directory to be writable by the user/group with id 1000/1000!"
-    echo "         Changing ownership of ${PROJECTDIR} to 1000:1000..."
-    sudo chown -R 1000:1000 "${PROJECTDIR}"
+    echo "         Changing ownership of ${PROJECTDIR}/notebooks to 1000:1000..."
+    sudo chown -R 1000:1000 "${PROJECTDIR}/notebooks"
   fi
 
   echo "Starting a docker container for this project"
   echo "based on ${CONTAINER} on port ${PORT}. Making"
-  echo "  ${PROJECTDIR}"
-  echo "available as ~/dune-gdt-python-bindings."
+  echo "  ${PROJECTDIR}/notebooks"
+  echo "available as ~/dune-gdt-python-bindings/notebooks."
 
   sudo docker run --rm=true --privileged=true -t -i --hostname docker --cidfile=${CID_FILE} \
     -e LOCAL_USER=$USER -e LOCAL_UID=$(id -u) -e LOCAL_GID=$(id -g) \
@@ -53,13 +48,13 @@ else
     -e GDK_DPI_SCALE=${GDK_DPI_SCALE:-1} \
     -e EXPOSED_PORT=$PORT -p 127.0.0.1:$PORT:$PORT \
     -v /etc/localtime:/etc/localtime:ro \
-    -v ${PROJECTDIR}:/data/home/dune-gdt-python-bindings \
-    ${CONTAINER} "${EXEC}"
+    -v ${PROJECTDIR}/notebooks:/data/home/dune-gdt-python-bindings/notebooks \
+    ${CONTAINER} notebooks
 
   if [[ "$(id -u)" != "1000" || "$(id -g)" != "1000" ]]; then
     echo "WARNING: This docker image assumes the source directory to be writable by the user/group with id 1000/1000!"
-    echo "         Restoring ownership of ${PROJECTDIR} to $(id -u):$(id -g)..."
-    sudo chown -R $(id -u):$(id -g) "${PROJECTDIR}"
+    echo "         Restoring ownership of ${PROJECTDIR}/notebooks to $(id -u):$(id -g)..."
+    sudo chown -R $(id -u):$(id -g) "${PROJECTDIR}/notebooks"
   fi
 
   sudo rm -f ${CID_FILE}
