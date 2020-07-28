@@ -19,6 +19,10 @@ RUN mkdir -p /data/home && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt-get" >> /etc/sudoers && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/apt" >> /etc/sudoers && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/dpkg" >> /etc/sudoers
+RUN pacman -Syuu --noconfirm && \
+    pacman -S --noconfirm lapacke && \
+    pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present"
+RUN pacman -Sc --noconfirm || echo "no cache to clear"
 
 ENV LANG en_US.UTF-8
 WORKDIR /data/home
