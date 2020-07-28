@@ -19,8 +19,8 @@ RUN mkdir -p /data/home && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/pacman" >> /etc/sudoers
 RUN pacman -Syuu --noconfirm && \
     pacman -S --noconfirm lapacke && \
-    pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present"
-RUN pacman -Sc --noconfirm || echo "no cache to clear"
+    pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present" ; \
+    pacman -Sc --noconfirm || echo "no cache to clear"
 
 ENV LANG en_US.UTF-8
 WORKDIR /data/home
@@ -33,13 +33,14 @@ ADD PATH.sh /data/dune/
 ADD strip.sh /data/dune/
 WORKDIR /data/dune
 RUN ./setup.sh && \
+    echo "stripping unneeded symbols" && \
     ./strip.sh
 
-ADD qtcreator-config.tgz /data/home/
+ADD qtcreator-config-arch.tgz /data/home/
 ADD bashrc /data/home/.bashrc
 ADD rebuild-dune.sh /data/dune/
-ADD CMakeLists.txt.user.dune-xt /data/dune/
-ADD CMakeLists.txt.user.dune-gdt /data/dune/
+ADD CMakeLists.txt.user.dune-xt-arch /data/dune/
+ADD CMakeLists.txt.user.dune-gdt-arch /data/dune/
 RUN chown -R ${USERNAME_}:${USERNAME_} /data
 
 ADD entrypoint.sh /usr/local/bin/
