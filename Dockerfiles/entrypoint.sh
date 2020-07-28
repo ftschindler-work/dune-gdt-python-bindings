@@ -11,9 +11,7 @@ export LANG=en_US.UTF-8
 echo "127.0.0.1 ${HOSTNAME}" >> /etc/hosts
 
 if [ "X$@" == "X" ]; then
-  exec gosu $USERNAME_ /bin/bash
-elif [ "X$@" == "notebooks" ]; then
-  exec gosu $USERNAME_ /bin/bash -c "./start_notebook_server"
+  exec gosu $USERNAME_ /bin/bash -c "source /data/dune/venv/dune-gdt-python-bindings/bin/activate && cd /data/home/dune-gdt-python-bindings && ./start_notebook_server.py"
 else
   exec gosu $USERNAME_ "$@"
 fi

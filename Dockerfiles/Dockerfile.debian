@@ -5,7 +5,7 @@
 # Authors:
 #   Felix Schindler (2020)
 
-FROM dunecommunity/arch-minimal-interactive
+FROM dunecommunity/debian-qtcreator
 
 MAINTAINER Felix Schindler <felix.schindler@wwu.de>
 
@@ -36,11 +36,11 @@ RUN ./setup.sh && \
     echo "stripping unneeded symbols" && \
     ./strip.sh
 
-ADD qtcreator-config-arch.tgz /data/home/
+ADD qtcreator-config-debian.tgz /data/home/
 ADD bashrc /data/home/.bashrc
 ADD rebuild-dune.sh /data/dune/
-ADD CMakeLists.txt.user.dune-xt-arch /data/dune/
-ADD CMakeLists.txt.user.dune-gdt-arch /data/dune/
+ADD CMakeLists.txt.user.dune-xt-debian /data/dune/CMakeLists.txt.user.dune-xt
+ADD CMakeLists.txt.user.dune-gdt-debian /data/dune/CMakeLists.txt.user.dune-gdt
 RUN chown -R ${USERNAME_}:${USERNAME_} /data
 
 ADD entrypoint.sh /usr/local/bin/

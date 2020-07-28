@@ -1,0 +1,48 @@
+# This file is part of the dune-gdt-python-bindings project:
+#   https://github.com/ftschindler-work/dune-gdt-python-bindings
+# Copyright holders: Felix Schindler
+# License: BSD 2-Clause License (http://opensource.org/licenses/BSD-2-Clause)
+# Authors:
+#   Felix Schindler (2020)
+
+FROM dunecommunity/arch-minimal-interactive
+
+MAINTAINER Felix Schindler <felix.schindler@wwu.de>
+
+ENV USERNAME_ user
+ENV UID_ 1000
+ENV GID_ 1000
+RUN mkdir -p /data/home && \
+    mkdir -p /data/dune && \
+    groupadd -g $GID_ $USERNAME_ && \
+    useradd -d /data/home -g $GID_ -s /bin/bash -u $UID_ $USERNAME_ && \
+    echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/pacman" >> /etc/sudoers
+RUN pacman -Syuu --noconfirm && \
+    pacman -S --noconfirm lapacke && \
+    pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present" ; \
+    pacman -Sc --noconfirm || echo "no cache to clear"
+
+ENV LANG en_US.UTF-8
+WORKDIR /data/home
+RUN git clone https://github.com/ftschindler-work/dune-gdt-python-bindings && \
+    cd dune-gdt-python-bindings&& \
+    git submodule update --init --recursive
+
+ADD setup.sh /data/dune/
+ADD PATH.sh /data/dune/
+ADD strip.sh /data/dune/
+WORKDIR /data/dune
+RUN ./setup.sh && \
+    echo "stripping unneeded symbols" && \
+    ./strip.sh
+
+ADD qtcreator-config-arch.tgz /data/home/
+ADD bashrc /data/home/.bashrc
+ADD rebuild-dune.sh /data/dune/
+ADD CMakeLists.txt.user.dune-xt-arch /data/dune/CMakeLists.txt.user.dune-xt
+ADD CMakeLists.txt.user.dune-gdt-arch /data/dune/CMakeLists.txt.user.dune-gdt
+RUN chown -R ${USERNAME_}:${USERNAME_} /data
+
+ADD entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
