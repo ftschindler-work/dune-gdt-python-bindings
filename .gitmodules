@@ -30,4 +30,4 @@
 	url = https://github.com/dune-community/dune-testtools.git
 [submodule "dune/dune-alugrid"]
 	path = dune/dune-alugrid
-	url = https://github.com/dune-community/dune-alugrid.git
+	url = https://zivgitlab.uni-muenster.de/ag-ohlberger/dune-community/dune-alugrid.git
