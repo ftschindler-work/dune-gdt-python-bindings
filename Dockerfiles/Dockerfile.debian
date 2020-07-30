@@ -35,6 +35,11 @@ WORKDIR /data/dune
 RUN ./setup.sh && \
     echo "stripping unneeded symbols" && \
     ./strip.sh
+RUN cd /tmp && \
+    wget https://gmsh.info/bin/Linux/gmsh-2.16.0-Linux64.tgz && \
+    tar -xzf gmsh-2.16.0-Linux64.tgz && \
+    mv gmsh-2.16.0-Linux/bin/gmsh /data/dune/venv/dune-gdt-python-bindings/bin && \
+    rm -rf gmsh-2.16.0-Linux*
 
 ADD qtcreator-config-debian.tgz /data/home/
 ADD bashrc /data/home/.bashrc
