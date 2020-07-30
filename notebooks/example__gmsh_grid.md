@@ -71,14 +71,22 @@ fom.visualize(fom.solve())
 
 # 3: using the gmsh grid in dune
 
-`dune-grid` [only supports](https://gitlab.dune-project.org/core/dune-grid/issues/85) `gmsh` version 2 files, but we use `gmsh` version 4. Conversion is achieved by starting the `gmsh` gui, opening the `.msh` file and exporting the mesh to `Version 2 ASCII` (check the *Save all Elements* box!). Afterwards, we need to edit the resulting file and remove all lines between and including `$PhysicalNames` and `$EndPhysicalNames`.
+`dune-grid` [only supports](https://gitlab.dune-project.org/core/dune-grid/issues/85) `gmsh` version 2 files, and only a subset of the specification.
+This virtualenv includes the `gmsh` version 2.16 (as visible in the output of the `discretize_gmsh` command above), but we still need to clean up the mesh file for `dune-grid` to correctly parse it.
+In particular, we need to remove the boundary type definition (which we do not require, we have our own boundary info), which is achieved by the following bash code (**Note** that you have to provide the same filename here as in the call to `discretize_gmsh`):
 
-We assume the new mesh is saved as `L_shaped_domain_v2.msh`.
+```python
+# remove all lines between $PhysicalNames and $EndPhysicalNames ...
+!sed '/^\$PhysicalNames/,/^\$EndPhysicalNames/{//!d;};' -i L_shaped_domain.msh
+# ... and remove those two lines as well:
+!sed '/^\$PhysicalNames/d' -i L_shaped_domain.msh
+!sed '/^\$EndPhysicalNames/d' -i L_shaped_domain.msh
+```
 
 ```python
 from dune.xt.grid import make_gmsh_grid, Dim, Simplex
 
-grid = make_gmsh_grid('L_shaped_domain_v2.msh', Dim(2), Simplex())
+grid = make_gmsh_grid('L_shaped_domain.msh', Dim(2), Simplex())
 ```
 
 This grid can now be used as any other grid.
