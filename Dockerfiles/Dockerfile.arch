@@ -17,8 +17,9 @@ RUN mkdir -p /data/home && \
     groupadd -g $GID_ $USERNAME_ && \
     useradd -d /data/home -g $GID_ -s /bin/bash -u $UID_ $USERNAME_ && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/pacman" >> /etc/sudoers
+# ttf-dejavu is required for pyMORs  three3js plot backend
 RUN pacman -Syuu --noconfirm && \
-    pacman -S --noconfirm lapacke && \
+    pacman -S --noconfirm lapacke ttf-dejavu && \
     pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present" ; \
     pacman -Sc --noconfirm || echo "no cache to clear"
 
