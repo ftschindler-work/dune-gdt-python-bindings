@@ -146,7 +146,7 @@ $$\begin{align}
 We consider for example a structured simplicial grid with 16 triangles.
 
 ```python
-from dune.xt.grid import Simplex, make_cube_grid, AllDirichletBoundaryInfo
+from dune.xt.grid import Simplex, make_cube_grid, AllDirichletBoundaryInfo, visualize_grid
 
 grid = make_cube_grid(Dim(d), Simplex(), lower_left=omega[0], upper_right=omega[1], num_elements=[2, 2])
 grid.global_refine(1) # we need to refine once to obtain a symmetric grid
@@ -154,16 +154,8 @@ grid.global_refine(1) # we need to refine once to obtain a symmetric grid
 print(f'grid has {grid.size(0)} elements, {grid.size(d - 1)} edges and {grid.size(d)} vertices')
 
 boundary_info = AllDirichletBoundaryInfo(grid)
-```
 
-```python
-from dune.xt.common.vtk.plot import plot as k3d_plot
-
-# writes grid.vtu with a function 'Element index'
-grid.visualize('grid')
-
-# displays the 'Element index' function from the 'grid.vtu' file
-_ = k3d_plot('grid.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
 ```
 
 ```python
@@ -391,12 +383,10 @@ All discrete functions are in particular grid functions and can thus be compared
 **Note:** if visualization fails for some reason, call `paraview` on the command line and open `u_h.vtu`!
 
 ```python
-from dune.gdt import DiscreteFunction
+from dune.gdt import DiscreteFunction, visualize_function
 
 u_h = DiscreteFunction(V_h, u_h_vector, name='u_h')
-
-u_h.visualize('u_h') # writes u_h.vtu
-_ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
+_ = visualize_function(u_h)
 ```
 
 # 1.9: everything in a single function
@@ -414,7 +404,5 @@ Calling it gives the same solution as above:
 
 ```python
 u_h = discretize_elliptic_cg_dirichlet_zero(grid, kappa, f)
-
-u_h.visualize('u_h') # writes u_h.vtu
-_ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
+_ = visualize_function(u_h)
 ```

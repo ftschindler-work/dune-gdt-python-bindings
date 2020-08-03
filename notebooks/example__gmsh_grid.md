@@ -84,7 +84,7 @@ In particular, we need to remove the boundary type definition (which we do not r
 ```
 
 ```python
-from dune.xt.grid import make_gmsh_grid, Dim, Simplex
+from dune.xt.grid import make_gmsh_grid, Dim, Simplex, visualize_grid
 
 grid = make_gmsh_grid('L_shaped_domain.msh', Dim(2), Simplex())
 ```
@@ -92,19 +92,16 @@ grid = make_gmsh_grid('L_shaped_domain.msh', Dim(2), Simplex())
 This grid can now be used as any other grid, e.g. for visualization ...
 
 ```python
-from dune.xt.common.vtk.plot import plot as k3d_plot
-
-grid.visualize('L_shaped_domain_v2')
-_ = k3d_plot('L_shaped_domain_v2.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
 ```
 
 ... or discretization:
 
 ```python
+from dune.gdt import visualize_function
+
 from discretize_elliptic_cg import discretize_elliptic_cg_dirichlet_zero
 
 u_h = discretize_elliptic_cg_dirichlet_zero(grid, diffusion=1, source=1)
-
-u_h.visualize('solution_on_L_shaped_domain') # writes solution_on_L_shaped_domain.vtu
-_ = k3d_plot('solution_on_L_shaped_domain.vtu', color_attribute_name='u_h')
+_ = visualize_function(u_h)
 ```

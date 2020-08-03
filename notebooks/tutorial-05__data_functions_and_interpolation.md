@@ -230,7 +230,7 @@ _ = visualize_function(h_h, subsampling=False)
 ## 4.2: using vectorized Python code
 
 For Lagrangian discrete function spaces the interpolation can be performed by point evaluation.
-We can extract the correct Lagrange-points from the discrete function space and wrap the into a `numpy`-array (without copying them. We can then perform the usual vectorized `numpy` operations and store the result in the DoF-vector of a discrete function (by again wrapping it without a copy into a `numpy`-array).
+We can extract the correct Lagrange-points from the discrete function space and wrap them into a `numpy`-array (without copying them). We can then perform the usual vectorized `numpy` operations and store the result in the DoF-vector of a discrete function (by again wrapping the vector without a copy into a `numpy`-array).
 
 ```python
 interpolation_points = np.array(V_h.interpolation_points(), copy=False)
@@ -266,7 +266,7 @@ t = time()
 
 V_h = DiscontinuousLagrangeSpace(grid, order=3)
 
-print(f'space {V_h.num_DoFs} DoFs')
+print(f'space has {V_h.num_DoFs} DoFs')
 ```
 
 ## 5.1: interpolation test
@@ -304,7 +304,7 @@ print(f'using a lambda expression in an interpolation test is {t_python/t_dune} 
 
 ## 5.2: discretization test
 
-We use the `discretize_elliptic_cg_dirichlet_zero` function as explained in the *tutorial on continuous Finite Elements for the stationary heat equation*.
+For a mor realistic comparison, we use the `discretize_elliptic_cg_dirichlet_zero` function as explained in the *tutorial on continuous Finite Elements for the stationary heat equation*.
 
 ```python
 from discretize_elliptic_cg import discretize_elliptic_cg_dirichlet_zero

@@ -46,22 +46,14 @@ f = ExpressionFunction(dim_domain=Dim(d), variable='x', expression='exp(x[0]*x[1
 ```
 
 ```python
-from dune.xt.grid import Simplex, make_cube_grid
+from dune.xt.grid import Simplex, make_cube_grid, visualize_grid
 
 grid = make_cube_grid(Dim(d), Simplex(), lower_left=omega[0], upper_right=omega[1], num_elements=[2, 2])
 grid.global_refine(1) # we need to refine once to obtain a symmetric grid
 
 print(f'grid has {grid.size(0)} elements, {grid.size(d - 1)} edges and {grid.size(d)} vertices')
-```
 
-```python
-from dune.xt.common.vtk.plot import plot as k3d_plot
-
-# writes grid.vtu with a function 'Element index'
-grid.visualize('grid')
-
-# displays the 'Element index' function from the 'grid.vtu' file
-_ = k3d_plot('grid.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
 ```
 
 # 1.9: everything in a single function
@@ -76,10 +68,11 @@ print(inspect.getsource(discretize_elliptic_ipdg_dirichlet_zero))
 ```
 
 ```python
+from dune.gdt import visualize_function
+
 u_h = discretize_elliptic_ipdg_dirichlet_zero(
     grid, kappa, f,
     symmetry_factor=1, penalty_parameter=16, weight=1) # SIPDG scheme
 
-u_h.visualize('u_h') # writes u_h.vtu
-_ = k3d_plot('u_h.vtu', color_attribute_name='u_h')
+_ = visualize_function(u_h)
 ```

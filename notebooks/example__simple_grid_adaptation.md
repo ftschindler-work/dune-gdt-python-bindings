@@ -22,20 +22,18 @@ np.warnings.filterwarnings('ignore') # silence numpys warnings
 ```
 
 ```python
-from dune.xt.common.vtk.plot import plot as k3d_plot
-from dune.xt.grid import Dim, Simplex, make_cube_grid
+from dune.xt.grid import Dim, Simplex, make_cube_grid, visualize_grid
 
 grid = make_cube_grid(Dim(2), Simplex(), [-1, -1], [1, 1], [1, 1])
-grid.visualize('grid_0')
 print('initial grid')
-_ = k3d_plot('grid_0.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
+print(f'grid has {grid.size(0)} elements')
 
 # we require one global refinement for simlexgrids to obtain a symmetric grid
 grid.global_refine(1)
 
 print('once refined to obtain a symmetric grid')
-grid.visualize('grid_1')
-_ = k3d_plot('grid_1.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
 
 print(f'grid has {grid.size(0)} elements')
 ```
@@ -72,8 +70,7 @@ adaptation_helper.post_adapt()
 ```python
 print(f'grid has {grid.size(0)} elements')
 
-grid.visualize('grid_2')
-_ = k3d_plot('grid_2.vtu', color_attribute_name='Element index')
+_ = visualize_grid(grid)
 
 print(f'space has {V_h.num_DoFs} DoFs')
 ```
