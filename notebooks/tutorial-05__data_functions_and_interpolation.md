@@ -34,7 +34,6 @@ We'll work in 2d in this tutorial since scalar functions in 2d can be best visua
 Let's set up a 2d grid first, as seen in other tutorials and examples.
 
 ```python
-from dune.xt.common.vtk.plot import plot as k3d_plot
 from dune.xt.grid import Dim, Cube, Simplex, make_cube_grid
 from dune.xt.functions import ConstantFunction, ExpressionFunction, GridFunction as GF
 
