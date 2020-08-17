@@ -77,7 +77,6 @@ print(f'f_h has {len(f_h.dofs.vector)} DoFs')
 u = GF(grid,
        ExpressionFunction(dim_domain=Dim(d), variable='x', order=10, expression='exp(x[0]*x[1])',
                           gradient_expressions=['x[1]*exp(x[0]*x[1])', 'x[0]*exp(x[0]*x[1])'], name='h'))
-# u = GF(grid, 1)
 ```
 
 $$
@@ -118,7 +117,7 @@ walker.append(H1_product)
 walker.walk()
 
 print(f'|| u ||_L2 = {np.sqrt(L2_product.result)}')
-print(f'| u |_H1 = {np.sqrt(H1_semi_product.result)}')
+print(f' | u |_H1  = {np.sqrt(H1_semi_product.result)}')
 print(f'|| u ||_H1 = {np.sqrt(H1_product.result)}')
 ```
 
