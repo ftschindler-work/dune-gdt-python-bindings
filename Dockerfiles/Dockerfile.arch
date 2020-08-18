@@ -17,7 +17,7 @@ RUN mkdir -p /data/home && \
     groupadd -g $GID_ $USERNAME_ && \
     useradd -d /data/home -g $GID_ -s /bin/bash -u $UID_ $USERNAME_ && \
     echo "$USERNAME_ ALL=(ALL) NOPASSWD:/usr/bin/pacman" >> /etc/sudoers
-# ttf-dejavu is required for pyMORs  three3js plot backend
+# ttf-dejavu is required for pyMORs three3js plot backend
 RUN pacman -Syuu --noconfirm && \
     pacman -S --noconfirm lapacke ttf-dejavu && \
     pacman -Rns --noconfirm $(pacman -Qtdq) || echo "no orphans present" ; \
@@ -26,8 +26,10 @@ RUN pacman -Syuu --noconfirm && \
 ENV LANG en_US.UTF-8
 WORKDIR /data/home
 RUN git clone https://github.com/ftschindler-work/dune-gdt-python-bindings && \
-    cd dune-gdt-python-bindings&& \
-    git submodule update --init --recursive
+    cd dune-gdt-python-bindings && \
+    git submodule update --init --recursive && \
+    sed -i 's;clang-format-8;clang-format-10;g' dune/dune-xt/cmake/modules/FindClangFormat.cmake && \
+    sed -i 's;ClangTidy 8;ClangTidy 10;g' dune/dune-xt/cmake/modules/XtTooling.cmake
 
 ADD setup.sh /data/dune/
 ADD PATH.sh /data/dune/
