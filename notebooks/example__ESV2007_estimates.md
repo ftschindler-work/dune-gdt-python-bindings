@@ -160,8 +160,6 @@ _ = visualize_function(eta_r_2)
 ```python
 from dune.xt.functions import gradient
 
-diffusion*gradient(u_h)
-
 eta_df_op = Operator(grid, RT_0, fv_space)
 eta_df_op += LocalElementBilinearFormIndicatorOperator(
     LocalElementIntegralBilinearForm(LocalElementProductIntegrand(inverse(diffusion, order=0))))
