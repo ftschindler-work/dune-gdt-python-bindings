@@ -26,10 +26,8 @@ RUN pacman -Sy --noconfirm && \
 ENV LANG en_US.UTF-8
 WORKDIR /data/home
 RUN git clone https://github.com/ftschindler-work/dune-gdt-python-bindings && \
-    cd dune-gdt-python-bindings && \
-    git submodule update --init --recursive && \
-    sed -i 's;clang-format-8;clang-format-10;g' dune/dune-xt/cmake/modules/FindClangFormat.cmake && \
-    sed -i 's;ClangTidy 8;ClangTidy 10;g' dune/dune-xt/cmake/modules/XtTooling.cmake
+    cd dune-gdt-python-bindings&& \
+    git submodule update --init --recursive
 
 ADD setup.sh /data/dune/
 ADD PATH.sh /data/dune/
