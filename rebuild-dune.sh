@@ -15,9 +15,12 @@ if [ "X${DXT_ENVIRONMENT}" == "X" ]; then
 fi
 
 # check existence of the virtualenv
-[ -e envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS} ] || \
-    echo Missing virtualenv, did you call setup.sh? ; \
+if [ -e envs/${DXT_ENVIRONMENT}/venv/dune-${OPTS} ]; then
+    echo -n
+else
+    echo Missing virtualenv, did you call setup.sh?
     exit
+fi
 
 # load the variables of this environment, sources the virtualenv
 source envs/${DXT_ENVIRONMENT}/PATH.sh
