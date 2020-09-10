@@ -72,7 +72,7 @@ from dune.xt.functions import ConstantFunction
 
 alpha = 0.5
 f = ConstantFunction(dim_domain=Dim(d), dim_range=Dim(1), value=[alpha], name='f')
-# note that we have to provide [alpha], since scalar constant functions expect a vector of length 0
+# note that we have to provide [alpha], since scalar constant functions expect a vector of length 1
 
 A = [[1, 0], [0, 1]]
 g = ConstantFunction(dim_domain=Dim(d), dim_range=(Dim(d), Dim(d)), value=A, name='g')

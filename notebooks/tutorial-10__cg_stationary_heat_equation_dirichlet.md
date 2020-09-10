@@ -326,7 +326,7 @@ from dune.gdt import DirichletConstraints
 dirichlet_constraints = DirichletConstraints(boundary_info, V_h)
 ```
 
-Similar to the bilinear forms an functionals above, the `dirichlet_constraints` are not yet assembled, which we can check as follows:
+Similar to the bilinear forms and functionals above, the `dirichlet_constraints` are not yet assembled, which we can check as follows:
 
 ```python
 print(dirichlet_constraints.dirichlet_DoFs)
