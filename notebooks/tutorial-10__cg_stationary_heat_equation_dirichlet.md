@@ -406,3 +406,142 @@ Calling it gives the same solution as above:
 u_h = discretize_elliptic_cg_dirichlet_zero(grid, kappa, f)
 _ = visualize_function(u_h)
 ```
+
+# 2: diffusion with non-homogeneous Dirichlet boundary condition
+
+## 2.1: analytical problem
+
+Consider problem $(1)$ from above, but with non-homogeneous Dirichlet boundary values. That is: 
+
+
+Let $\Omega \subset \mathbb{R}^d$ for $1 \leq d \leq 3$ be a bounded connected domain with Lipschitz-boundary $\partial\Omega$. We seek the solution $u \in H^1(\Omega)$ of the linear diffusion equation (with a **non-homogeneous Dirichlet boundary condition**)
+
+$$\begin{align}
+- \nabla\cdot(\kappa\nabla u) &= f &&\text{in } \Omega,\tag{12}\label{eq:diff_dir:pde}\\
+u &= g_\text{D} &&\text{on } \partial\Omega,
+\end{align}$$
+
+in a weak sense, where $\kappa \in [L^\infty(\Omega)]^{d \times d}$ denotes a given diffusion function, $f \in L^2(\Omega)$ denotes a given source function and $g_\text{D} \in L^2(\partial\Omega)$ denotes given Dirichlet boundary values.
+
+The variational problem associated with $\eqref{eq:diff_dir:pde}$ reads: find $u \in H^1(\Omega)$, such that
+
+$$\begin{align}
+a(u, v) &= l(v) &&\text{for all }v \in V,\tag{13}\label{eq:diff_dir:variational_problem}
+\end{align}$$
+
+with the same bilinear form $a$ and linear functional $l$ as above in $(3)$.
+<!-- #endregion -->
+
+## 2.2: Dirichlet shift
+
+Suppose $\hat{g}_\text{D} \in H^1(\Omega)$ is an extension of the Dirichlet boundary values to $\Omega$, such that
+
+$$\begin{align}
+\hat{g}_\text{D}|_{\partial\Omega} = g_\text{D}
+\end{align}$$
+
+in the sense of traces. We then have for the solution $u \in H^1(\Omega)$ of $(13)$, that
+
+$$\begin{align}
+u = u_0 + \hat{g}_\text{D}
+\end{align}$$
+
+for some $u_0 \in H^1_0(\Omega)$. Thus, we may reformulate $(13)$ as follows: Find $u_0 \in H^1_0(\Omega)$, such that
+
+$$\begin{align}
+a(u_0 + \hat{g}_\text{D}, v) &= l(v) &&\text{for all }v \in V,
+\end{align}$$
+
+or equivalently
+
+$$\begin{align}
+a(u_0, v) &= l(v) - a(\hat{g}_\text{D}, v) &&\text{for all }v \in V.\tag{14}\label{eq:diff_dir:shifted_variational_problem}
+\end{align}$$
+
+We have thus shifted problem $(13)$ to be of familiar form, i.e., similarly to above we consider a linear diffusion equation with **homogeneous** Dirichlet boundary conditions, but a **modified source** term.
+
+
+Consider for example $(1)$ with:
+
+* $d = 2$
+* $\Omega = [0, 1]^2$
+* $\kappa = 1$
+* $f = \exp(x_0 x_1)$
+* $g_\text{D} = x_0 x_1$
+
+Except for $g_\text{D}$, we may thus use the same grid, boundary info and data functions as above.
+
+
+## 2.3: Dirichlet interpolation
+
+To obtain $\hat{g}_\text{D} \in H^1(\Omega)$, we use the Lagrange interpolation of $g_\text{D}$ and set all DoFs associated with inner Lagrange nodes to zero. This is realized by the `boundary_interpolation`.
+
+```python
+from dune.xt.grid import DirichletBoundary
+from dune.gdt import boundary_interpolation
+
+g_D = ExpressionFunction(dim_domain=Dim(d), variable='x', expression='x[0]*x[1]', order=2, name='g_D')
+
+g_D_hat = boundary_interpolation(GF(grid, g_D), V_h, boundary_info, DirichletBoundary())
+
+_ = visualize_function(g_D_hat)
+```
+
+As we observe, the values on all boundary DoFs are $x_0 x_1$ and on all inner DoFs $0$.
+
+
+## 2.4: assembling the shifted system
+
+* We assemble the unconstrained matrix- and vector representation of $a_h$ and $l_h$ w.r.t. $V_h$ similarly as above.
+
+```python
+l_h = VectorFunctional(grid, source_space=V_h)
+l_h += LocalElementIntegralFunctional(LocalElementProductIntegrand(GF(grid, 1)).with_ansatz(GF(grid, f)))
+
+a_h = MatrixOperator(grid, source_space=V_h, range_space=V_h,
+                     sparsity_pattern=make_element_sparsity_pattern(V_h))
+a_h += LocalElementIntegralBilinearForm(LocalLaplaceIntegrand(GF(grid, kappa, dim_range=(Dim(d), Dim(d)))))
+
+walker = Walker(grid)
+walker.append(a_h)
+walker.append(l_h)
+walker.walk()
+```
+
+* We then obtain the shifted system by directly modifying the right hand side vector.
+
+```python
+rhs_vector = l_h.vector - a_h.matrix@g_D_hat.dofs.vector
+```
+
+* *Afterwards*, we constrain the shifted system to $V_h \cap H^1_0(\Omega)$.
+
+```python
+dirichlet_constraints.apply(a_h.matrix, rhs_vector)
+```
+
+* Then, we solve the shifted and constrained system for the DoF vector of $u_{0, h}$.
+
+```python
+u_0_h_vector = a_h.apply_inverse(rhs_vector)
+```
+
+* We may then obtain the solution by shifting it back.
+
+```python
+u_h = DiscreteFunction(V_h, u_0_h_vector + g_D_hat.dofs.vector)
+
+_ = visualize_function(u_h)
+```
+
+## 2.5: everything in a single function
+
+As above, solving with non-homogeneous Dirichlet values is also available in a single function.
+
+```python
+from discretize_elliptic_cg import discretize_elliptic_cg_dirichlet
+
+u_h = discretize_elliptic_cg_dirichlet(grid, kappa, f, g_D)
+
+_ = visualize_function(u_h)
+```
