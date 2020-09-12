@@ -18,7 +18,6 @@ This tutorial shows how to solve the stationary heat equation with homogeneous D
 
 ## This is work in progress (WIP), still missing:
 
-* non-homonegenous Dirichlet boundary values
 * Neumann boundary values
 * Robin boundary values
 
