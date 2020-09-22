@@ -52,7 +52,7 @@ docker image associated with this project to provide all pre-built bindings but 
 create custom bindings by overwriting the pre-built bindings with those compiled from the
 current C++ sources (using the pre-configured QtCreator IDE as detailed in the instructions).
 Note that custom bindings need to be compiled after each start of the container, else the
-pre-built are used without further notice. All changes within the project directory (C++ sources
+pre-built ones are used without further notice. All changes within the project directory (C++ sources
 and notebooks) remain persistent.
 
 * make all submodules available (for your changes to DUNE and pyMOR to remain persistent)
@@ -127,22 +127,8 @@ for the first time.
 
   - start `qtcreator &> /dev/null &`, note the `xhost` permissions as [explained here](https://github.com/dune-community/Dockerfiles)
   - configure Plugins to disable most that you don't need, in particular `ClangCodeModel` and `Code analyzer`
-    for the mush faster old behaviour, or enable those for the new fancy behaviour
-020 11:09 dune-grid
-drwxr-xr-x 11 felix users 4.0K 22.09.2020 11:10 dune-grid-glue
-drwxr-xr-x 10 felix users 4.0K 22.09.2020 11:06 dune-istl
-drwxr-xr-x  9 felix users 4.0K 22.09.2020 11:05 dune-localfunctions
-drwxr-xr-x  9 felix users 4.0K 22.09.2020 11:10 dune-testtools
-drwxr-xr-x 11 felix users 4.0K 22.09.2020 11:10 dune-xt
-(dune-clang-relwithdebinfo.ninja) ┐ (felix@docker) [11:41:23|Di Sep 22] [staging] [~/dune-gdt-python-bindings] 
-(reverse-i-search)`qtcr': cd ~/dune-gdt-python-bindings && source envs/${DXT_ENVIRONMENT}/PATH.sh && ^Ccreator &> /dev/null &
-(dune-clang-relwithdebinfo.ninja) ┐ (felix@docker) [11:42:59|Di Sep 22] [staging] [~/dune-gdt-python-bindings] 
-└───> exit
-┐ (felix@felix-notebook) [14] [11:43:01|Tue Sep 22]  [~/Projekte] 
-└───> docker_run arch-minimal-interactive-felix dune-gdt-python-bindings /bin/bash
-Starting a docker container
-for dune-gdt-python-bindings
-  - in Tools > Options > Kits > default choose `CMake generator` as `Ninja` + `CodeBlocks` and ensure an empty
+    for the much faster old behaviour, or enable those for the new fancy (but CPU and RAM heavy) behaviour
+  - in `Tools > Options > Kits > default` choose `CMake Generator` as `Ninja` + `CodeBlocks` and ensure an empty
     `Environment` and `CMake Configuration`
   - create a new session and open `dune/dune-xt/CMakeLists.txt` and `dune/dune-gdt/CMakeLists.txt` and
     configure the appropriate release type (e.g. debug and relwithdebinfo) and point it to the respective
