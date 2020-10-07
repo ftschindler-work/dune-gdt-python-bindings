@@ -53,16 +53,15 @@ fi
 if [ "${OPTS: -6}" == ".ninja" ]; then
   MAKE=ninja
 else
-  MAKE=make
+  MAKE="make -j(($(nproc) - 1))"
 fi
 
 cd "${BASEDIR}"/dune
-NPROC=$(($(nproc) - 1))
 nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS configure
-nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS bexec "$MAKE -j$NPROC all"
+nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS bexec "$MAKE all"
 for mod in dune-xt dune-gdt; do
-  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE -j$NPROC bindings_no_ext"
-  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE -j$NPROC install_python"
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE bindings_no_ext"
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE install_python"
 done
 
 cd "${BASEDIR}"
