@@ -31,6 +31,8 @@ cd "${BASEDIR}"/dune
 NPROC=$(($(nproc) - 1))
 ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build configure
 ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE -j$NPROC all"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE -j$NPROC bindings_no_ext || echo no bindings"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE install_python"
+for mod in dune-xt dune-gdt; do
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE -j$NPROC bindings_no_ext"
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=$INSTALL_PREFIX/build-$OPTS --only=$mod bexec "$MAKE -j$NPROC install_python"
+done
 
