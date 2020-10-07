@@ -9,9 +9,16 @@ cd $BASEDIR
 source /data/dune/PATH.sh
 
 # build dune
-NPROC=2
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build configure
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make -j$NPROC all"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make -j$NPROC bindings_no_ext || echo no bindings"
-./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "make install_python"
+if [ "${OPTS: -6}" == ".ninja" ]; then
+  MAKE=ninja
+else
+  MAKE="make -j(($(nproc) - 1))"
+fi
+
+nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build configure
+nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build bexec "$MAKE all"
+for mod in dune-xt dune-gdt; do
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build --only=$mod bexec "$MAKE bindings_no_ext"
+  nice ionice ./dune-common/bin/dunecontrol --opts=config.opts/$OPTS --builddir=/data/dune/build --only=$mod bexec "$MAKE install_python"
+done
 
