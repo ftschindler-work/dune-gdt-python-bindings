@@ -9,7 +9,7 @@
 
 # the dir containing this script is needed for mounting stuff into the container
 PROJECTDIR="$(cd "$(dirname ${BASH_SOURCE[0]})" ;  pwd -P )"
-CONTAINER=ftschindlerwork/dune-gdt-python-bindings:staging
+CONTAINER=ftschindlerwork/dune-gdt-python-bindings
 CID_FILE=/tmp/ftschindlerwork_dune-gdt-python-bindings.cid
 PORT="18$(( ( RANDOM % 10 ) ))$(( ( RANDOM % 10 ) ))$(( ( RANDOM % 10 ) ))"
 
