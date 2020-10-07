@@ -25,7 +25,8 @@ RUN pacman -Syuu --noconfirm && \
 ENV LANG en_US.UTF-8
 WORKDIR /data/home
 RUN git clone https://github.com/ftschindler-work/dune-gdt-python-bindings && \
-    cd dune-gdt-python-bindings&& \
+    cd dune-gdt-python-bindings && \
+    git checkout staging && \
     git submodule update --init --recursive
 
 ADD setup.sh /data/dune/
